@@ -1,5 +1,6 @@
 package com.trainingmug.foodiecli;
 
+import com.trainingmug.foodiecli.ui.Menu;
 import com.trainingmug.foodiecli.util.CsvReader;
 
 public class Main {
@@ -11,5 +12,8 @@ public class Main {
         System.out.println( csvReader.readCustomersFromCsv());
         System.out.println("---------- Restaurants -----------------");
         System.out.println( csvReader.readRestaurantsFromCsv());
+
+        Menu menu = new Menu();
+        menu.displayMainMenu();
     }
 }
