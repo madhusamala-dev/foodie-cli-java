@@ -30,13 +30,13 @@ public class Restaurant {
     private List<Dish> menu;
 
     // Getter for restaurantId
-    public String getRestaurantId() {
-        return restaurantId;
+    public String getId() {
+        return id;
     }
 
     // Setter for restaurantId
-    public Restaurant setRestaurantId(String restaurantId) {
-        this.restaurantId = restaurantId;
+    public Restaurant setId(String id) {
+        this.id = id;
         return this;
     }
 
