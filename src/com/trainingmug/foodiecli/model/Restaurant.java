@@ -27,7 +27,7 @@ public class Restaurant {
     private String id;
     private String name;
     private String address;
-    private List<Dish> menu;
+    private List<String> menu;
 
     // Getter for restaurantId
     public String getId() {
@@ -63,15 +63,17 @@ public class Restaurant {
     }
 
     // Getter for menu
-    public List<Dish> getMenu() {
+    public List<String> getMenu() {
         return menu;
     }
 
     // Setter for menu
-    public Restaurant setMenu(List<Dish> menu) {
+    public Restaurant setMenu(List<String> menu) {
         this.menu = menu;
         return this;
     }
+
+
 
     // Overriding hashCode
     @Override

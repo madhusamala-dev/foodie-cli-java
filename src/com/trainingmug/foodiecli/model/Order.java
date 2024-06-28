@@ -5,7 +5,28 @@ import java.util.List;
 import java.util.Objects;
 
 public class Order {
-    private String orderId;
+
+   /*
+    add the following properties
+    --------------------------------------
+    Datatype                  variable
+    --------------------------------------
+    String                      id
+    Customer                    customer
+    Restaurant                  restaurant
+    List<Dish>                  dishes
+    double                      price
+     */
+
+    /*
+    1. All the fields should be private
+    2. Create only no-arg constructor
+    3. Create Getters and Setter methods
+    4. Override hashCode() and equals() methods
+    5. Override toString() methods
+     */
+
+    private String id;
     private Customer customer;
     private Restaurant restaurant;
     private List<Dish> dishes;
@@ -13,23 +34,16 @@ public class Order {
     private Date orderDate;
 
     // Constructor
-    public Order(String orderId, Customer customer, Restaurant restaurant, List<Dish> dishes, double totalPrice, Date orderDate) {
-        this.orderId = orderId;
-        this.customer = customer;
-        this.restaurant = restaurant;
-        this.dishes = dishes;
-        this.totalPrice = totalPrice;
-        this.orderDate = orderDate;
-    }
+
 
     // Getter for orderId
-    public String getOrderId() {
-        return orderId;
+    public String getId() {
+        return id;
     }
 
     // Setter for orderId
-    public Order setOrderId(String orderId) {
-        this.orderId = orderId;
+    public Order setId(String id) {
+        this.id = id;
         return this;
     }
 
@@ -91,7 +105,7 @@ public class Order {
     // Overriding hashCode
     @Override
     public int hashCode() {
-        return Objects.hash(orderId, customer, restaurant, dishes, totalPrice, orderDate);
+        return Objects.hash(id, customer, restaurant, dishes, totalPrice, orderDate);
     }
 
     // Overriding equals
@@ -105,7 +119,7 @@ public class Order {
         }
         Order order = (Order) obj;
         return Double.compare(order.totalPrice, totalPrice) == 0 &&
-                Objects.equals(orderId, order.orderId) &&
+                Objects.equals(id, order.id) &&
                 Objects.equals(customer, order.customer) &&
                 Objects.equals(restaurant, order.restaurant) &&
                 Objects.equals(dishes, order.dishes) &&
@@ -116,7 +130,7 @@ public class Order {
     @Override
     public String toString() {
         return "Order{" +
-                "orderId='" + orderId + '\'' +
+                " id ='" + id + '\'' +
                 ", customer=" + customer +
                 ", restaurant=" + restaurant +
                 ", dishes=" + dishes +
