@@ -6,6 +6,7 @@ import com.trainingmug.foodiecli.model.Customer;
 import com.trainingmug.foodiecli.repository.CustomerRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public class CustomerServiceImpl implements CustomerService{
 
@@ -16,8 +17,11 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
-    public Customer save(Customer customer) throws CustomerAlreadyExistsException {
-        return null;
+    public Customer save(Customer customer) throws CustomerAlreadyExistsException{
+        Optional<Customer> customerByEmail = this.customerRepository.getCustomerByEmail(customer.getEmail());
+        if(customerByEmail.isEmpty())
+            throw new CustomerAlreadyExistsException("Customer Already Exists with this email");
+        return this.customerRepository.saveCustomer(customer);
     }
 
     @Override
