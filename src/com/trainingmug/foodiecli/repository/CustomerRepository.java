@@ -31,6 +31,10 @@ public class CustomerRepository {
         return this.customersList.stream().filter(customer -> customer.getId().equals(id)).findFirst();
     }
 
+    public Optional<Customer> getCustomerByEmail(String email){
+        return this.customersList.stream().filter(customer -> customer.getEmail().equals(email)).findFirst();
+    }
+
     public Optional<Customer> updateCustomer(Customer customerToBeUpdated) {
         return this.customersList.stream().filter(customer -> customer.getId().equals(customerToBeUpdated.getId()))
                 .findFirst()
