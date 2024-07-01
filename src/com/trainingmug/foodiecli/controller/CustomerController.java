@@ -13,6 +13,6 @@ public class CustomerController {
     }
 
     public Customer save(Customer customer) throws CustomerAlreadyExistsException {
-       return this.customerService.save(customer);
+        return this.customerService.save(customer);
     }
 }
