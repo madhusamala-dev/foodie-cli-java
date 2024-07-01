@@ -32,7 +32,7 @@ public class Customer {
     }
 
     // Getter for customerId
-    public String getCustomerId() {
+    public String getId() {
         return id;
     }
 
