@@ -21,7 +21,7 @@ public class DishRepository {
         return this.dishList;
     }
 
-    public Dish addDish(Dish dish) {
+    public Dish saveDish(Dish dish) {
         this.dishList.add(dish);
         return dish;
     }

@@ -22,7 +22,7 @@ public class CustomerRepository {
         return this.customersList;
     }
 
-    public Customer addCustomer(Customer customer) {
+    public Customer saveCustomer(Customer customer) {
         this.customersList.add(customer);
         return customer;
     }
