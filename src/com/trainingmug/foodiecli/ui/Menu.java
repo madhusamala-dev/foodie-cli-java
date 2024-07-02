@@ -5,11 +5,13 @@ import com.trainingmug.foodiecli.controller.DishController;
 import com.trainingmug.foodiecli.controller.RestaurantController;
 import com.trainingmug.foodiecli.exceptions.CustomerExistsException;
 import com.trainingmug.foodiecli.exceptions.DishExistsException;
+import com.trainingmug.foodiecli.exceptions.RestaurantExistsException;
 import com.trainingmug.foodiecli.factory.Factory;
 import com.trainingmug.foodiecli.model.Customer;
 import com.trainingmug.foodiecli.model.Dish;
 import com.trainingmug.foodiecli.model.Restaurant;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -39,9 +41,9 @@ public class Menu {
                 System.out.println("4. View Dishes ");
                 System.out.println("5. Add Restaurant");
                 System.out.println("6. Add Dish");
-                System.out.println("5. Place Order");
-                System.out.println("6. View Orders");
-                System.out.println("7. Exit");
+                System.out.println("7. Place Order");
+                System.out.println("8. View Orders");
+                System.out.println("9. Exit");
 
                 System.out.println("Please enter your choice (1-7)");
 
@@ -56,8 +58,17 @@ public class Menu {
                     case 4:
                         displayDishes();
                         break;
+                    case 5:
+                        newRestaurantForm();
+                        break;
                     case 6:
                         newDishForm();
+                        break;
+                    case 7:
+
+                    case 9:
+                        System.out.println("Thanks for choosing Foodie App, See you again !");
+                        System.exit(0);
                         break;
 
                     default:
@@ -69,6 +80,33 @@ public class Menu {
             System.out.println("Some internal error occurred. Please try again !");
             e.printStackTrace();
             displayMainMenu();
+        }
+    }
+
+    private void newRestaurantForm() {
+        try {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Please enter the following details\n");
+            System.out.println("Enter Id");
+            String id = scanner.nextLine();
+            System.out.println("Enter Name");
+            String name = scanner.nextLine();
+            System.out.println("Enter Address");
+            String address = scanner.nextLine();
+            System.out.println("Enter Dishes for Menu separated by : (D010:D009)");
+            String menu = scanner.nextLine();
+            Restaurant restaurant = new Restaurant();
+            restaurant.setId(id)
+                        .setName(name)
+                        .setAddress(address)
+                                .setMenu(Arrays.asList(menu.split(":")));
+            restaurantController.saveRestaurant(restaurant);
+
+        } catch (RestaurantExistsException e) {
+            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Some internal error occurred. Please try again !");
+            newRestaurantForm();
         }
     }
 
