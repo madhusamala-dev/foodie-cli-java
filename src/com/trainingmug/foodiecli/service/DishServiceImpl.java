@@ -7,7 +7,7 @@ import java.util.List;
 
 public class DishServiceImpl implements DishService{
 
-    private DishRepository dishRepository;
+    private final DishRepository dishRepository;
 
     public DishServiceImpl(DishRepository dishRepository) {
         this.dishRepository = dishRepository;

@@ -1,9 +1,11 @@
 package com.trainingmug.foodiecli.repository;
 
 
+import com.trainingmug.foodiecli.factory.Factory;
 import com.trainingmug.foodiecli.model.Customer;
 import com.trainingmug.foodiecli.util.CsvReader;
 
+import javax.xml.stream.FactoryConfigurationError;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -13,9 +15,7 @@ public class CustomerRepository {
     List<Customer> customersList;
 
     public CustomerRepository() {
-        this.customersList = new ArrayList<>();
-        CsvReader csvReader = new CsvReader();
-        this.customersList = csvReader.readCustomersFromCsv();
+        this.customersList = Factory.getCsvReader().readCustomersFromCsv();
     }
 
     public List<Customer> getCustomersList() {

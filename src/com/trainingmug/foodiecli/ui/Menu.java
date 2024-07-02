@@ -2,10 +2,12 @@ package com.trainingmug.foodiecli.ui;
 
 import com.trainingmug.foodiecli.controller.CustomerController;
 import com.trainingmug.foodiecli.controller.DishController;
+import com.trainingmug.foodiecli.controller.RestaurantController;
 import com.trainingmug.foodiecli.exceptions.CustomerAlreadyExistsException;
 import com.trainingmug.foodiecli.factory.Factory;
 import com.trainingmug.foodiecli.model.Customer;
 import com.trainingmug.foodiecli.model.Dish;
+import com.trainingmug.foodiecli.model.Restaurant;
 import com.trainingmug.foodiecli.repository.CustomerRepository;
 import com.trainingmug.foodiecli.service.CustomerService;
 import com.trainingmug.foodiecli.service.CustomerServiceImpl;
@@ -18,10 +20,7 @@ public class Menu {
         Scanner scanner = new Scanner(System.in);
         while (true) {
 
-            System.out.println("------------------------------------------------------------------");
-            System.out.println("                WELCOME TO FOODIE APP                             ");
-            System.out.println("------------------------------------------------------------------");
-
+            displayMenuHeader("WELCOME TO FOODIE APP");
             System.out.println();
             System.out.println("Please select the option !");
             System.out.println("--------------------------");
@@ -40,6 +39,9 @@ public class Menu {
                 case 1:
                     displayRegisterMenu();
                     break;
+                case 3:
+                    displayRestaurants();
+                    break;
                 case 4:
                     displayMenuItems();
                     break;
@@ -51,15 +53,23 @@ public class Menu {
         }
     }
 
+    private void displayRestaurants() {
+        RestaurantController restaurantController = Factory.getRestaurantController();
+        List<Restaurant> restaurantList = restaurantController.getRestaurantList();
+        String dashesLine = new String(new char[150]).replace('\0', '-');
+        displayMenuHeader("Restaurants");
+        System.out.printf("%-10s %-30s %-80s %-30s\n","Id", "Name", "Address","Menu Items");
+        System.out.println(dashesLine);
+        restaurantList.forEach(restaurant -> {
+            System.out.printf("%-10s %-30s %-80s %-30s\n",restaurant.getId(), restaurant.getName(), restaurant.getAddress(),String.join(":", restaurant.getMenu()));
+        });
+    }
+
     private void displayMenuItems() {
         DishController dishController = Factory.getDishController();
         List<Dish> dishesList = dishController.getDisesList();
         String dashesLine = new String(new char[150]).replace('\0', '-');
-        System.out.println(dashesLine);
-        String spaces = new String(new char[70]).replace('\0',' ');
-        System.out.printf("%-70s %-10s %-70s \n",spaces,"Menu Items",spaces);
-        System.out.println(dashesLine);
-
+        displayMenuHeader("Menu Items");
         System.out.printf("%-10s %-30s %-80s %-10s\n","Id", "Name", "Description","Price");
         System.out.println(dashesLine);
         dishesList.forEach(dish ->{
@@ -106,5 +116,13 @@ public class Menu {
             System.out.println(e.getMessage());
         }
 
+    }
+
+    public void displayMenuHeader(String menuHeader){
+        String dashesLine = new String(new char[150]).replace('\0', '-');
+        System.out.println(dashesLine);
+        String spaces = new String(new char[70]).replace('\0',' ');
+        System.out.printf("%-70s %-10s %-70s \n",spaces,menuHeader,spaces);
+        System.out.println(dashesLine);
     }
 }

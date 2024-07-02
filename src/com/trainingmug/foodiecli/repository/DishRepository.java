@@ -1,5 +1,6 @@
 package com.trainingmug.foodiecli.repository;
 
+import com.trainingmug.foodiecli.factory.Factory;
 import com.trainingmug.foodiecli.model.Dish;
 import com.trainingmug.foodiecli.util.CsvReader;
 
@@ -12,9 +13,7 @@ public class DishRepository {
     List<Dish> dishList;
 
     public DishRepository() {
-        this.dishList = new ArrayList<>();
-        CsvReader csvReader = new CsvReader();
-        this.dishList = csvReader.readDishesFromCsv();
+        this.dishList = Factory.getCsvReader().readDishesFromCsv();
     }
 
     public List<Dish> getDishList() {
