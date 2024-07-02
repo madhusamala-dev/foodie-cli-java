@@ -1,6 +1,6 @@
 package com.trainingmug.foodiecli.service;
 
-import com.trainingmug.foodiecli.exceptions.CustomerAlreadyExistsException;
+import com.trainingmug.foodiecli.exceptions.CustomerExistsException;
 import com.trainingmug.foodiecli.exceptions.CustomerNotFoundException;
 import com.trainingmug.foodiecli.model.Customer;
 import com.trainingmug.foodiecli.repository.CustomerRepository;
@@ -17,10 +17,10 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
-    public Customer save(Customer customer) throws CustomerAlreadyExistsException{
+    public Customer save(Customer customer) throws CustomerExistsException {
         Optional<Customer> customerById = this.customerRepository.getCustomerById(customer.getId());
         if(customerById.isPresent())
-            throw new CustomerAlreadyExistsException("Customer Already Exists with this Id  :" + customer.getId());
+            throw new CustomerExistsException("Customer Already Exists with this Id  :" + customer.getId());
         return this.customerRepository.saveCustomer(customer);
     }
 

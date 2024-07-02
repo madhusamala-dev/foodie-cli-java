@@ -3,14 +3,11 @@ package com.trainingmug.foodiecli.ui;
 import com.trainingmug.foodiecli.controller.CustomerController;
 import com.trainingmug.foodiecli.controller.DishController;
 import com.trainingmug.foodiecli.controller.RestaurantController;
-import com.trainingmug.foodiecli.exceptions.CustomerAlreadyExistsException;
+import com.trainingmug.foodiecli.exceptions.CustomerExistsException;
 import com.trainingmug.foodiecli.factory.Factory;
 import com.trainingmug.foodiecli.model.Customer;
 import com.trainingmug.foodiecli.model.Dish;
 import com.trainingmug.foodiecli.model.Restaurant;
-import com.trainingmug.foodiecli.repository.CustomerRepository;
-import com.trainingmug.foodiecli.service.CustomerService;
-import com.trainingmug.foodiecli.service.CustomerServiceImpl;
 
 import java.util.List;
 import java.util.Scanner;
@@ -27,7 +24,9 @@ public class Menu {
             System.out.println("1. Register (New Customer)");
             System.out.println("2. Login  (Existing Customer)");
             System.out.println("3. View Restaurants");
-            System.out.println("4. View Menu");
+            System.out.println("4. View Dishes ");
+            System.out.println("5. Add Restaurant");
+            System.out.println("6. Add Dish");
             System.out.println("5. Place Order");
             System.out.println("6. View Orders");
             System.out.println("7. Exit");
@@ -37,13 +36,16 @@ public class Menu {
             int input = scanner.nextInt();
             switch (input) {
                 case 1:
-                    displayRegisterMenu();
+                    customerRegisterForm();
                     break;
                 case 3:
                     displayRestaurants();
                     break;
                 case 4:
-                    displayMenuItems();
+                    displayDishes();
+                    break;
+                case 6:
+                    newDishForm();
                     break;
 
                 default:
@@ -51,6 +53,10 @@ public class Menu {
 
             }
         }
+    }
+
+    private void newDishForm() {
+
     }
 
     private void displayRestaurants() {
@@ -65,7 +71,7 @@ public class Menu {
         });
     }
 
-    private void displayMenuItems() {
+    private void displayDishes() {
         DishController dishController = Factory.getDishController();
         List<Dish> dishesList = dishController.getDisesList();
         String dashesLine = new String(new char[150]).replace('\0', '-');
@@ -78,8 +84,8 @@ public class Menu {
 
     }
 
-    private void displayRegisterMenu() {
-        Scanner scanner = new Scanner(System.in);
+    private void customerRegisterForm() {
+        Scanner scanner = Factory.getScanner();
         System.out.println("Please register entering the following details\n");
         System.out.println("Enter Id");
         String id = scanner.nextLine();
@@ -112,8 +118,11 @@ public class Menu {
             System.out.println("Name : " + customer.getName());
             System.out.println("E-mail : " + customer.getEmail());
             System.out.println("Password : " + customer.getPassword());
-        } catch (CustomerAlreadyExistsException e) {
+
+        } catch (CustomerExistsException e) {
             System.out.println(e.getMessage());
+        } finally{
+            scanner = null;
         }
 
     }

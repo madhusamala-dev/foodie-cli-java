@@ -1,6 +1,6 @@
 package com.trainingmug.foodiecli.controller;
 
-import com.trainingmug.foodiecli.exceptions.CustomerAlreadyExistsException;
+import com.trainingmug.foodiecli.exceptions.CustomerExistsException;
 import com.trainingmug.foodiecli.model.Customer;
 import com.trainingmug.foodiecli.service.CustomerServiceImpl;
 
@@ -12,7 +12,7 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    public Customer save(Customer customer) throws CustomerAlreadyExistsException {
+    public Customer save(Customer customer) throws CustomerExistsException {
         return this.customerService.save(customer);
     }
 }

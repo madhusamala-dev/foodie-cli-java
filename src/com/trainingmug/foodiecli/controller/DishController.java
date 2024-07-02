@@ -1,5 +1,6 @@
 package com.trainingmug.foodiecli.controller;
 
+import com.trainingmug.foodiecli.exceptions.DishExistsException;
 import com.trainingmug.foodiecli.model.Dish;
 import com.trainingmug.foodiecli.service.DishServiceImpl;
 
@@ -15,5 +16,9 @@ public class DishController {
 
     public List<Dish> getDisesList(){
         return this.dishService.getDishesList();
+    }
+
+    public Dish save(Dish dish) throws DishExistsException {
+        return this.dishService.save(dish);
     }
 }

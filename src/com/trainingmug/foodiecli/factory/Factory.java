@@ -12,6 +12,8 @@ import com.trainingmug.foodiecli.service.RestaurantService;
 import com.trainingmug.foodiecli.service.RestaurantServiceImpl;
 import com.trainingmug.foodiecli.util.CsvReader;
 
+import java.util.Scanner;
+
 public class Factory {
 
     public static CsvReader getCsvReader(){
@@ -52,6 +54,10 @@ public class Factory {
 
     public static RestaurantController getRestaurantController(){
         return new RestaurantController(getRestaurantService());
+    }
+
+    public static Scanner getScanner(){
+        return new Scanner(System.in);
     }
 
 }
