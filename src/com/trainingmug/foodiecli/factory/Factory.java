@@ -1,8 +1,11 @@
 package com.trainingmug.foodiecli.factory;
 
 import com.trainingmug.foodiecli.controller.CustomerController;
+import com.trainingmug.foodiecli.controller.DishController;
 import com.trainingmug.foodiecli.repository.CustomerRepository;
+import com.trainingmug.foodiecli.repository.DishRepository;
 import com.trainingmug.foodiecli.service.CustomerServiceImpl;
+import com.trainingmug.foodiecli.service.DishServiceImpl;
 
 public class Factory {
 
@@ -16,5 +19,17 @@ public class Factory {
 
     public static CustomerController getCustomerController(){
         return new CustomerController(getCustomerService());
+    }
+
+    public static DishRepository getDishRepository(){
+        return new DishRepository();
+    }
+
+    public static DishServiceImpl getDishService() {
+        return new DishServiceImpl(getDishRepository());
+    }
+
+    public static DishController getDishController(){
+        return new DishController(getDishService());
     }
 }

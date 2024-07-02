@@ -1,13 +1,16 @@
 package com.trainingmug.foodiecli.ui;
 
 import com.trainingmug.foodiecli.controller.CustomerController;
+import com.trainingmug.foodiecli.controller.DishController;
 import com.trainingmug.foodiecli.exceptions.CustomerAlreadyExistsException;
 import com.trainingmug.foodiecli.factory.Factory;
 import com.trainingmug.foodiecli.model.Customer;
+import com.trainingmug.foodiecli.model.Dish;
 import com.trainingmug.foodiecli.repository.CustomerRepository;
 import com.trainingmug.foodiecli.service.CustomerService;
 import com.trainingmug.foodiecli.service.CustomerServiceImpl;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
@@ -37,11 +40,32 @@ public class Menu {
                 case 1:
                     displayRegisterMenu();
                     break;
+                case 4:
+                    displayMenuItems();
+                    break;
+
                 default:
                     System.out.println("Invalid Input. Please enter the valid input from(1-7)");
 
             }
         }
+    }
+
+    private void displayMenuItems() {
+        DishController dishController = Factory.getDishController();
+        List<Dish> dishesList = dishController.getDisesList();
+        String dashesLine = new String(new char[150]).replace('\0', '-');
+        System.out.println(dashesLine);
+        String spaces = new String(new char[70]).replace('\0',' ');
+        System.out.printf("%-70s %-10s %-70s \n",spaces,"Menu Items",spaces);
+        System.out.println(dashesLine);
+
+        System.out.printf("%-10s %-30s %-80s %-10s\n","Id", "Name", "Description","Price");
+        System.out.println(dashesLine);
+        dishesList.forEach(dish ->{
+            System.out.printf("%-10s %-30s %-80s %-10s\n",dish.getId(), dish.getName(), dish.getDescription(),String.format("$%.2f", dish.getPrice()));
+        });
+
     }
 
     private void displayRegisterMenu() {
