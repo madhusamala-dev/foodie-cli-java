@@ -4,11 +4,13 @@ import com.trainingmug.foodiecli.controller.CustomerController;
 import com.trainingmug.foodiecli.controller.DishController;
 import com.trainingmug.foodiecli.controller.RestaurantController;
 import com.trainingmug.foodiecli.exceptions.CustomerExistsException;
+import com.trainingmug.foodiecli.exceptions.DishExistsException;
 import com.trainingmug.foodiecli.factory.Factory;
 import com.trainingmug.foodiecli.model.Customer;
 import com.trainingmug.foodiecli.model.Dish;
 import com.trainingmug.foodiecli.model.Restaurant;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -56,6 +58,31 @@ public class Menu {
     }
 
     private void newDishForm() {
+        try(Scanner scanner = Factory.getScanner()){
+        System.out.println("Please enter the following details\n");
+        System.out.println("Enter Id");
+        String id = scanner.nextLine();
+        System.out.println("Enter Name");
+        String name = scanner.nextLine();
+        System.out.println("Enter Description");
+        String description = scanner.nextLine();
+        System.out.println("Enter Price");
+        double price = scanner.nextDouble();
+        Dish dish = new Dish();
+        dish.setId(id)
+                .setName(name)
+                .setDescription(description)
+                .setPrice(price);
+
+         DishController dishController = Factory.getDishController();
+         dishController.save(dish);
+        } catch(DishExistsException e){
+            System.out.println(e.getMessage());
+        } catch(Exception e){
+            System.out.println("Some internal error occurred. Please try again !");
+            newDishForm();
+        }
+
 
     }
 
@@ -64,10 +91,10 @@ public class Menu {
         List<Restaurant> restaurantList = restaurantController.getRestaurantList();
         String dashesLine = new String(new char[150]).replace('\0', '-');
         displayMenuHeader("Restaurants");
-        System.out.printf("%-10s %-30s %-80s %-30s\n","Id", "Name", "Address","Menu Items");
+        System.out.printf("%-10s %-30s %-80s %-30s\n", "Id", "Name", "Address", "Menu Items");
         System.out.println(dashesLine);
         restaurantList.forEach(restaurant -> {
-            System.out.printf("%-10s %-30s %-80s %-30s\n",restaurant.getId(), restaurant.getName(), restaurant.getAddress(),String.join(":", restaurant.getMenu()));
+            System.out.printf("%-10s %-30s %-80s %-30s\n", restaurant.getId(), restaurant.getName(), restaurant.getAddress(), String.join(":", restaurant.getMenu()));
         });
     }
 
@@ -76,16 +103,16 @@ public class Menu {
         List<Dish> dishesList = dishController.getDisesList();
         String dashesLine = new String(new char[150]).replace('\0', '-');
         displayMenuHeader("Menu Items");
-        System.out.printf("%-10s %-30s %-80s %-10s\n","Id", "Name", "Description","Price");
+        System.out.printf("%-10s %-30s %-80s %-10s\n", "Id", "Name", "Description", "Price");
         System.out.println(dashesLine);
-        dishesList.forEach(dish ->{
-            System.out.printf("%-10s %-30s %-80s %-10s\n",dish.getId(), dish.getName(), dish.getDescription(),String.format("$%.2f", dish.getPrice()));
+        dishesList.forEach(dish -> {
+            System.out.printf("%-10s %-30s %-80s %-10s\n", dish.getId(), dish.getName(), dish.getDescription(), String.format("$%.2f", dish.getPrice()));
         });
 
     }
 
     private void customerRegisterForm() {
-        Scanner scanner = Factory.getScanner();
+        try(Scanner scanner = Factory.getScanner()){
         System.out.println("Please register entering the following details\n");
         System.out.println("Enter Id");
         String id = scanner.nextLine();
@@ -110,7 +137,7 @@ public class Menu {
         CustomerController customerController = new CustomerController(customerService);*/
         CustomerController customerController = Factory.getCustomerController();
 
-        try {
+
             Customer savedCustomer = customerController.save(customer);
             System.out.println("Customer Registration Successful");
             System.out.println("Details:");
@@ -121,17 +148,18 @@ public class Menu {
 
         } catch (CustomerExistsException e) {
             System.out.println(e.getMessage());
-        } finally{
-            scanner = null;
+        } catch(Exception e){
+            System.out.println("Some internal error occurred. Please try again !");
+            customerRegisterForm();
         }
 
     }
 
-    public void displayMenuHeader(String menuHeader){
+    public void displayMenuHeader(String menuHeader) {
         String dashesLine = new String(new char[150]).replace('\0', '-');
         System.out.println(dashesLine);
-        String spaces = new String(new char[70]).replace('\0',' ');
-        System.out.printf("%-70s %-10s %-70s \n",spaces,menuHeader,spaces);
+        String spaces = new String(new char[70]).replace('\0', ' ');
+        System.out.printf("%-70s %-10s %-70s \n", spaces, menuHeader, spaces);
         System.out.println(dashesLine);
     }
 }
