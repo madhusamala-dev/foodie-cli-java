@@ -56,8 +56,5 @@ public class Factory {
         return new RestaurantController(getRestaurantService());
     }
 
-    public static Scanner getScanner(){
-        return new Scanner(System.in);
-    }
 
 }

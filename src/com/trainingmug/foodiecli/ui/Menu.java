@@ -10,75 +10,91 @@ import com.trainingmug.foodiecli.model.Customer;
 import com.trainingmug.foodiecli.model.Dish;
 import com.trainingmug.foodiecli.model.Restaurant;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
+
+    private DishController dishController;
+    private CustomerController customerController;
+    private RestaurantController restaurantController;
+
+    public Menu() {
+        this.dishController = Factory.getDishController();
+        this.customerController = Factory.getCustomerController();
+        this.restaurantController = Factory.getRestaurantController();
+    }
+
     public void displayMainMenu() {
-        Scanner scanner = new Scanner(System.in);
-        while (true) {
+        try {
+            Scanner scanner = new Scanner(System.in);
+            while (true) {
+                displayMenuHeader("WELCOME TO FOODIE APP");
+                System.out.println();
+                System.out.println("Please select the option !");
+                System.out.println("--------------------------");
+                System.out.println("1. Register (New Customer)");
+                System.out.println("2. Login  (Existing Customer)");
+                System.out.println("3. View Restaurants");
+                System.out.println("4. View Dishes ");
+                System.out.println("5. Add Restaurant");
+                System.out.println("6. Add Dish");
+                System.out.println("5. Place Order");
+                System.out.println("6. View Orders");
+                System.out.println("7. Exit");
 
-            displayMenuHeader("WELCOME TO FOODIE APP");
-            System.out.println();
-            System.out.println("Please select the option !");
-            System.out.println("--------------------------");
-            System.out.println("1. Register (New Customer)");
-            System.out.println("2. Login  (Existing Customer)");
-            System.out.println("3. View Restaurants");
-            System.out.println("4. View Dishes ");
-            System.out.println("5. Add Restaurant");
-            System.out.println("6. Add Dish");
-            System.out.println("5. Place Order");
-            System.out.println("6. View Orders");
-            System.out.println("7. Exit");
+                System.out.println("Please enter your choice (1-7)");
 
-            System.out.println("Please enter your choice (1-7)");
+                int input = scanner.nextInt();
+                switch (input) {
+                    case 1:
+                        customerRegisterForm();
+                        break;
+                    case 3:
+                        displayRestaurants();
+                        break;
+                    case 4:
+                        displayDishes();
+                        break;
+                    case 6:
+                        newDishForm();
+                        break;
 
-            int input = scanner.nextInt();
-            switch (input) {
-                case 1:
-                    customerRegisterForm();
-                    break;
-                case 3:
-                    displayRestaurants();
-                    break;
-                case 4:
-                    displayDishes();
-                    break;
-                case 6:
-                    newDishForm();
-                    break;
+                    default:
+                        System.out.println("Invalid Input. Please enter the valid input from(1-7)");
 
-                default:
-                    System.out.println("Invalid Input. Please enter the valid input from(1-7)");
-
+                }
             }
+        } catch (Exception e) {
+            System.out.println("Some internal error occurred. Please try again !");
+            e.printStackTrace();
+            displayMainMenu();
         }
     }
 
     private void newDishForm() {
-        try(Scanner scanner = Factory.getScanner()){
-        System.out.println("Please enter the following details\n");
-        System.out.println("Enter Id");
-        String id = scanner.nextLine();
-        System.out.println("Enter Name");
-        String name = scanner.nextLine();
-        System.out.println("Enter Description");
-        String description = scanner.nextLine();
-        System.out.println("Enter Price");
-        double price = scanner.nextDouble();
-        Dish dish = new Dish();
-        dish.setId(id)
-                .setName(name)
-                .setDescription(description)
-                .setPrice(price);
+        try {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Please enter the following details\n");
+            System.out.println("Enter Id");
+            String id = scanner.nextLine();
+            System.out.println("Enter Name");
+            String name = scanner.nextLine();
+            System.out.println("Enter Description");
+            String description = scanner.nextLine();
+            System.out.println("Enter Price");
+            double price = scanner.nextDouble();
+            Dish dish = new Dish();
+            dish.setId(id)
+                    .setName(name)
+                    .setDescription(description)
+                    .setPrice(price);
 
-         DishController dishController = Factory.getDishController();
-         dishController.save(dish);
-        } catch(DishExistsException e){
+            this.dishController.save(dish);
+            System.out.println(" : New Dish Added Successfully : " + dish.getId());
+        } catch (DishExistsException e) {
             System.out.println(e.getMessage());
-        } catch(Exception e){
+        } catch (Exception e) {
             System.out.println("Some internal error occurred. Please try again !");
             newDishForm();
         }
@@ -87,8 +103,7 @@ public class Menu {
     }
 
     private void displayRestaurants() {
-        RestaurantController restaurantController = Factory.getRestaurantController();
-        List<Restaurant> restaurantList = restaurantController.getRestaurantList();
+        List<Restaurant> restaurantList = this.restaurantController.getRestaurantList();
         String dashesLine = new String(new char[150]).replace('\0', '-');
         displayMenuHeader("Restaurants");
         System.out.printf("%-10s %-30s %-80s %-30s\n", "Id", "Name", "Address", "Menu Items");
@@ -99,8 +114,8 @@ public class Menu {
     }
 
     private void displayDishes() {
-        DishController dishController = Factory.getDishController();
-        List<Dish> dishesList = dishController.getDisesList();
+
+        List<Dish> dishesList = this.dishController.getDisesList();
         String dashesLine = new String(new char[150]).replace('\0', '-');
         displayMenuHeader("Menu Items");
         System.out.printf("%-10s %-30s %-80s %-10s\n", "Id", "Name", "Description", "Price");
@@ -112,30 +127,31 @@ public class Menu {
     }
 
     private void customerRegisterForm() {
-        try(Scanner scanner = Factory.getScanner()){
-        System.out.println("Please register entering the following details\n");
-        System.out.println("Enter Id");
-        String id = scanner.nextLine();
-        System.out.println("Enter Name");
-        String name = scanner.nextLine();
-        System.out.println("Enter E-mail");
-        String email = scanner.nextLine();
+        try {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Please register entering the following details\n");
+            System.out.println("Enter Id");
+            String id = scanner.nextLine();
+            System.out.println("Enter Name");
+            String name = scanner.nextLine();
+            System.out.println("Enter E-mail");
+            String email = scanner.nextLine();
         /*Console console = System.console();
         System.out.println("console : " + console);
         char[] passwordArray = console.readPassword("Enter Password (invisible)");
         String password = String.valueOf(passwordArray);*/
-        System.out.println("Enter Password");
-        String password = scanner.nextLine();
-        // System.out.println("Id : " + id + " , Name : " + name + " , E-mail :  " + email + ", Password :" + password);
-        Customer customer = new Customer();
-        customer.setId(id)
-                .setName(name)
-                .setEmail(email)
-                .setPassword(password);
+            System.out.println("Enter Password");
+            String password = scanner.nextLine();
+            // System.out.println("Id : " + id + " , Name : " + name + " , E-mail :  " + email + ", Password :" + password);
+            Customer customer = new Customer();
+            customer.setId(id)
+                    .setName(name)
+                    .setEmail(email)
+                    .setPassword(password);
        /* CustomerRepository customerRepository = new CustomerRepository();
         CustomerServiceImpl customerService = new CustomerServiceImpl(customerRepository);
         CustomerController customerController = new CustomerController(customerService);*/
-        CustomerController customerController = Factory.getCustomerController();
+
 
 
             Customer savedCustomer = customerController.save(customer);
@@ -148,7 +164,7 @@ public class Menu {
 
         } catch (CustomerExistsException e) {
             System.out.println(e.getMessage());
-        } catch(Exception e){
+        } catch (Exception e) {
             System.out.println("Some internal error occurred. Please try again !");
             customerRegisterForm();
         }
