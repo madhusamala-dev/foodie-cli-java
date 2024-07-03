@@ -25,12 +25,12 @@ public class DishRepository {
         return dish;
     }
 
-    public Optional<Dish> getDishById(String id) {
+    public Optional<Dish> findDishById(String id) {
         return this.dishList.stream().filter(dish -> dish.getId().equals(id)).findFirst();
     }
 
-    public Optional<Dish> updateDish(Dish dishToBeUpdated) {
-        return this.dishList.stream().filter(dish -> dish.getId().equals(dishToBeUpdated.getId()))
+    public Dish updateDish(Dish dishToBeUpdated) {
+        Optional<Dish> dishOptional = this.dishList.stream().filter(dish -> dish.getId().equals(dishToBeUpdated.getId()))
                 .findFirst()
                 .map(dish -> {
                     dish.setName(dishToBeUpdated.getName())
@@ -38,6 +38,7 @@ public class DishRepository {
                             .setDescription(dishToBeUpdated.getDescription());
                     return dish;
                 });
+        return dishOptional.orElse(null);
     }
 
     public void deleteDish(Dish dish){

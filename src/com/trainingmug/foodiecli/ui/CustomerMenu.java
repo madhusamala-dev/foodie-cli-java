@@ -93,11 +93,7 @@ public class CustomerMenu extends Menu {
 
             Customer updatedCustomer = customerController.updateCustomer(customer);
             System.out.println("Customer Updated Successfully");
-            System.out.println("Details:");
-            System.out.println("Id : " + customer.getId());
-            System.out.println("Name : " + customer.getName());
-            System.out.println("E-mail : " + customer.getEmail());
-            System.out.println("Password : " + customer.getPassword());
+            displayCustomerDetails(updatedCustomer);
 
         } catch (CustomerNotFoundException e) {
             System.out.println(e.getMessage());
@@ -174,12 +170,7 @@ public class CustomerMenu extends Menu {
 
             Customer savedCustomer = customerController.save(customer);
             System.out.println("Customer Registration Successful");
-            System.out.println("Details:");
-            System.out.println("Id : " + customer.getId());
-            System.out.println("Name : " + customer.getName());
-            System.out.println("E-mail : " + customer.getEmail());
-            System.out.println("Password : " + customer.getPassword());
-
+            displayCustomerDetails(savedCustomer);
         } catch (CustomerExistsException e) {
             System.out.println(e.getMessage());
         } catch (Exception e) {

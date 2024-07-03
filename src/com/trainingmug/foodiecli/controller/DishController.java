@@ -1,6 +1,7 @@
 package com.trainingmug.foodiecli.controller;
 
 import com.trainingmug.foodiecli.exceptions.DishExistsException;
+import com.trainingmug.foodiecli.exceptions.DishNotFoundException;
 import com.trainingmug.foodiecli.model.Dish;
 import com.trainingmug.foodiecli.service.DishServiceImpl;
 
@@ -20,5 +21,17 @@ public class DishController {
 
     public Dish save(Dish dish) throws DishExistsException {
         return this.dishService.save(dish);
+    }
+
+    public Dish getDishById(String id) throws DishNotFoundException {
+        return this.dishService.getDishById(id);
+    }
+
+    public Dish update(Dish dish) throws DishNotFoundException {
+        return this.dishService.update(dish);
+    }
+
+    public void deleteDish(String id) throws DishNotFoundException{
+        this.dishService.delete(id);
     }
 }
