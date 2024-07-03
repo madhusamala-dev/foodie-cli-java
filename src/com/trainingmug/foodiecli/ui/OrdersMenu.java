@@ -61,12 +61,14 @@ public class OrdersMenu extends Menu {
     private void ordersList() {
         List<Order> ordersList = this.orderController.getOrdersList();
         displayMenuHeader("All Order Details");
+        System.out.printf("%-10s %-20s %-30s %-60s %-20s %-10s\n", "Id", "Customer Name", "Restaurant Name", "Items", "Order Date", "Price");
+        printDashLine();
+
         ordersList.forEach(order -> {
             String dishNames = order.getDishList().stream().map(Dish::getName).collect(Collectors.joining(","));
-            System.out.printf("%-10s %-30s %-30s %-80s %-10s %-10s\n", "Id", "Customer Name", "Restaurant Name", "Items", "Order Date", "Price");
-            printDashLine();
-            System.out.printf("%-10s %-30s %-30s %-80s %-10s %-10s\n", order.getId(), order.getCustomer().getName(), order.getRestaurant().getName(), dishNames, order.getOrderDate(), order.getTotalPrice());
+            System.out.printf("%-10s %-20s %-30s %-60s %-20s %-10s\n\n", order.getId(), order.getCustomer().getName(), order.getRestaurant().getName(), dishNames, order.getOrderDate(), order.getTotalPrice());
         });
+        System.out.println("\n\n");
     }
 
     private void searchOrderForm() {
@@ -87,9 +89,9 @@ public class OrdersMenu extends Menu {
     private void displayOrderDetails(Order order) {
             String dishNames = order.getDishList().stream().map(Dish::getName).collect(Collectors.joining(","));
             displayMenuHeader("Order Details");
-            System.out.printf("%-10s %-30s %-30s %-80s %-10s %-10s\n", "Id", "Customer Name", "Restaurant Name", "Items","Order Date","Price");
+            System.out.printf("%-10s %-20s %-30s %-60s %-20s %-10s\n", "Id", "Customer Name", "Restaurant Name", "Items","Order Date","Price");
             printDashLine();
-            System.out.printf("%-10s %-30s %-30s %-80s %-10s %-10s\n", order.getId(), order.getCustomer().getName(), order.getRestaurant().getName(), dishNames,order.getOrderDate(),order.getTotalPrice());
+            System.out.printf("%-10s %-20s %-30s %-60s %-20s %-10s\n\n", order.getId(), order.getCustomer().getName(), order.getRestaurant().getName(), dishNames,order.getOrderDate(),String.format("$%.2f", order.getTotalPrice()));
 
 
     }
@@ -106,7 +108,8 @@ public class OrdersMenu extends Menu {
             RestaurantService restaurantService = Factory.getRestaurantService();
             DishService dishService = Factory.getDishService();
             loggedInCustomer = customerService.getCurrentLoggedInCustomer();
-            System.out.println("Logged In Customer : " + loggedInCustomer);
+            if(loggedInCustomer != null )
+                System.out.println("Hello , " + loggedInCustomer.getName());
             while (loggedInCustomer == null) {
                 System.out.println("Please login to place an order");
                 new CustomerMenu().customerLoginForm();
@@ -140,13 +143,7 @@ public class OrdersMenu extends Menu {
             double orderPrice = calculateOrderTotalPrice(dishList);
             LocalDate orderDate = LocalDate.now();
 
-            System.out.println("Order Details");
-            System.out.println("Order Id : " + id);
-            System.out.println("Customer : " + loggedInCustomer);
-            System.out.println("Restaurant : " + restaurant);
-            System.out.println("Dishes : " + dishList);
-            System.out.println("Order Value : " + orderPrice);
-            System.out.println("Order Date : " + orderDate);
+
 
             Order order = new Order();
             order.setId(id)
@@ -157,6 +154,9 @@ public class OrdersMenu extends Menu {
                     .setOrderDate(orderDate);
 
             Order placedOrder = orderController.saveOrder(order);
+            if(placedOrder != null)
+                System.out.println("Order Placed Successfully with the following details");
+
             displayOrderDetails(placedOrder);
 
         } catch (RestaurantNotFoundException | OrderExistsException e) {
