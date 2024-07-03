@@ -27,16 +27,16 @@ public class CustomerRepository {
         return customer;
     }
 
-    public Optional<Customer> getCustomerById(String id) {
+    public Optional<Customer> findCustomerById(String id) {
         return this.customersList.stream().filter(customer -> customer.getId().equals(id)).findFirst();
     }
 
-    public Optional<Customer> getCustomerByEmail(String email){
+    public Optional<Customer> findCustomerByEmail(String email){
         return this.customersList.stream().filter(customer -> customer.getEmail().equals(email)).findFirst();
     }
 
-    public Optional<Customer> updateCustomer(Customer customerToBeUpdated) {
-        return this.customersList.stream().filter(customer -> customer.getId().equals(customerToBeUpdated.getId()))
+    public Customer updateCustomer(Customer customerToBeUpdated) {
+       Optional<Customer> updateCustomer =  this.customersList.stream().filter(customer -> customer.getId().equals(customerToBeUpdated.getId()))
                 .findFirst()
                 .map(customer -> {
                     customer.setName(customerToBeUpdated.getName())
@@ -45,9 +45,15 @@ public class CustomerRepository {
 
                     return customer;
                 });
+         return updateCustomer.orElse(null);
+
     }
 
     public void deleteCustomer(Customer customer){
         this.customersList.remove(customer);
+    }
+
+    public Optional<Customer> findByEmailAndPassword(String email, String password){
+        return this.customersList.stream().filter(customer -> customer.getEmail().equalsIgnoreCase(email) && customer.getPassword().equals(password)).findFirst();
     }
 }

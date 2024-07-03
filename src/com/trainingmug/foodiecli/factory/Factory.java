@@ -8,11 +8,8 @@ import com.trainingmug.foodiecli.repository.DishRepository;
 import com.trainingmug.foodiecli.repository.RestaurantRepository;
 import com.trainingmug.foodiecli.service.CustomerServiceImpl;
 import com.trainingmug.foodiecli.service.DishServiceImpl;
-import com.trainingmug.foodiecli.service.RestaurantService;
 import com.trainingmug.foodiecli.service.RestaurantServiceImpl;
 import com.trainingmug.foodiecli.util.CsvReader;
-
-import java.util.Scanner;
 
 public class Factory {
 
