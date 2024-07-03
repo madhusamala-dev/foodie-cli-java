@@ -1,28 +1,11 @@
 package com.trainingmug.foodiecli.ui;
 
-import com.trainingmug.foodiecli.controller.CustomerController;
-import com.trainingmug.foodiecli.controller.DishController;
-import com.trainingmug.foodiecli.controller.RestaurantController;
-import com.trainingmug.foodiecli.exceptions.DishExistsException;
-import com.trainingmug.foodiecli.exceptions.RestaurantExistsException;
-import com.trainingmug.foodiecli.factory.Factory;
-import com.trainingmug.foodiecli.model.Dish;
-import com.trainingmug.foodiecli.model.Restaurant;
-
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
 
-    private DishController dishController;
-    private CustomerController customerController;
-    private RestaurantController restaurantController;
-
     public Menu() {
-        this.dishController = Factory.getDishController();
-        this.customerController = Factory.getCustomerController();
-        this.restaurantController = Factory.getRestaurantController();
+
     }
 
     public void displayMenu() {
@@ -60,49 +43,6 @@ public class Menu {
             displayMenu();
         }
     }
-
-    private void newRestaurantForm() {
-        try {
-            Scanner scanner = new Scanner(System.in);
-            System.out.println("Please enter the following details\n");
-            System.out.println("Enter Id");
-            String id = scanner.nextLine();
-            System.out.println("Enter Name");
-            String name = scanner.nextLine();
-            System.out.println("Enter Address");
-            String address = scanner.nextLine();
-            System.out.println("Enter Dishes for Menu separated by : (D010:D009)");
-            String menu = scanner.nextLine();
-            Restaurant restaurant = new Restaurant();
-            restaurant.setId(id)
-                    .setName(name)
-                    .setAddress(address)
-                    .setMenu(Arrays.asList(menu.split(":")));
-            restaurantController.saveRestaurant(restaurant);
-
-        } catch (RestaurantExistsException e) {
-            System.out.println(e.getMessage());
-        } catch (Exception e) {
-            System.out.println("Some internal error occurred. Please try again !");
-            newRestaurantForm();
-        }
-    }
-
-
-    private void displayRestaurants() {
-        List<Restaurant> restaurantList = this.restaurantController.getRestaurantList();
-        String dashesLine = new String(new char[150]).replace('\0', '-');
-        displayMenuHeader("Restaurants");
-        System.out.printf("%-10s %-30s %-80s %-30s\n", "Id", "Name", "Address", "Menu Items");
-        System.out.println(dashesLine);
-        restaurantList.forEach(restaurant -> {
-            System.out.printf("%-10s %-30s %-80s %-30s\n", restaurant.getId(), restaurant.getName(), restaurant.getAddress(), String.join(":", restaurant.getMenu()));
-        });
-    }
-
-
-
-
     public void displayMenuHeader(String menuHeader) {
         String dashesLine = new String(new char[150]).replace('\0', '-');
         System.out.println(dashesLine);

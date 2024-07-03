@@ -2,6 +2,7 @@ package com.trainingmug.foodiecli.service;
 
 import com.trainingmug.foodiecli.exceptions.DishExistsException;
 import com.trainingmug.foodiecli.exceptions.RestaurantExistsException;
+import com.trainingmug.foodiecli.exceptions.RestaurantNotFoundException;
 import com.trainingmug.foodiecli.model.Dish;
 import com.trainingmug.foodiecli.model.Restaurant;
 import com.trainingmug.foodiecli.repository.RestaurantRepository;
@@ -24,10 +25,36 @@ public class RestaurantServiceImpl implements RestaurantService{
 
     @Override
     public Restaurant save(Restaurant restaurant) throws RestaurantExistsException {
-        Optional<Restaurant> restaurantById = this.restaurantRepository.getRestaurantById(restaurant.getId());
+        Optional<Restaurant> restaurantById = this.restaurantRepository.findRestaurantById(restaurant.getId());
         if(restaurantById.isPresent())
             throw new RestaurantExistsException("Restaurant Already Exists with this Id  :" + restaurant.getId());
         return this.restaurantRepository.save(restaurant);
+    }
+
+    @Override
+    public Restaurant getRestaurantById(String id) throws RestaurantNotFoundException {
+        Optional<Restaurant> restaurantById = this.restaurantRepository.findRestaurantById(id);
+        if(restaurantById.isEmpty())
+            throw new RestaurantNotFoundException("Restaurant Not Found with this Id  :" + id);
+        return restaurantById.get();
+
+    }
+
+    @Override
+    public Restaurant updateRestaurant(Restaurant restaurant) throws RestaurantNotFoundException {
+        Optional<Restaurant> restaurantById = this.restaurantRepository.findRestaurantById(restaurant.getId());
+        if(restaurantById.isEmpty())
+            throw new RestaurantNotFoundException("Restaurant Not Found with this Id  :" + restaurant.getId());
+        return this.restaurantRepository.updateRetaurant(restaurant);
+    }
+
+
+    @Override
+    public void deleteRestaurant(String id) throws RestaurantNotFoundException {
+        Optional<Restaurant> restaurantById = this.restaurantRepository.findRestaurantById(id);
+        if(restaurantById.isEmpty())
+            throw new RestaurantNotFoundException("Restaurant Not Found with this Id  :" + id);
+        this.restaurantRepository.deleteRestaurant(restaurantById.get());
     }
 
 
