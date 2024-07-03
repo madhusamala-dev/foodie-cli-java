@@ -58,7 +58,7 @@ public class DishesMenu extends Menu {
         }
     }
 
-    private void dishDeleteForm() {
+    public void dishDeleteForm() {
         try {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Please enter the following details to delete the Dish\n");
@@ -72,7 +72,7 @@ public class DishesMenu extends Menu {
         }
     }
 
-    private void dishUpdateForm() {
+    public void dishUpdateForm() {
         try {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Please Update entering the following details\n");
@@ -102,7 +102,7 @@ public class DishesMenu extends Menu {
         }
     }
 
-    private void dishSearchForm() {
+    public void dishSearchForm() {
         try {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Please enter the following details to search for Customer\n");
@@ -116,7 +116,7 @@ public class DishesMenu extends Menu {
         }
     }
 
-    private void newDishForm() {
+    public void newDishForm() {
         try {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Please enter the following details\n");
@@ -147,7 +147,7 @@ public class DishesMenu extends Menu {
     }
 
 
-    private void displayDishes() {
+    public void displayDishes() {
         List<Dish> dishesList = this.dishController.getDisesList();
         String dashesLine = new String(new char[150]).replace('\0', '-');
         displayMenuHeader("Dish Items");
@@ -159,10 +159,9 @@ public class DishesMenu extends Menu {
     }
 
     public void displayDish(Dish dish) {
-        String dashesLine = new String(new char[150]).replace('\0', '-');
         displayMenuHeader("Dish Details");
         System.out.printf("%-10s %-30s %-80s %-10s\n", "Id", "Name", "Description", "Price");
-        System.out.println(dashesLine);
+        printDashLine();
         System.out.printf("%-10s %-30s %-80s %-10s\n", dish.getId(), dish.getName(), dish.getDescription(), String.format("$%.2f", dish.getPrice()));
 
     }

@@ -2,12 +2,15 @@ package com.trainingmug.foodiecli.factory;
 
 import com.trainingmug.foodiecli.controller.CustomerController;
 import com.trainingmug.foodiecli.controller.DishController;
+import com.trainingmug.foodiecli.controller.OrderController;
 import com.trainingmug.foodiecli.controller.RestaurantController;
 import com.trainingmug.foodiecli.repository.CustomerRepository;
 import com.trainingmug.foodiecli.repository.DishRepository;
+import com.trainingmug.foodiecli.repository.OrderRepository;
 import com.trainingmug.foodiecli.repository.RestaurantRepository;
 import com.trainingmug.foodiecli.service.CustomerServiceImpl;
 import com.trainingmug.foodiecli.service.DishServiceImpl;
+import com.trainingmug.foodiecli.service.OrderServiceImpl;
 import com.trainingmug.foodiecli.service.RestaurantServiceImpl;
 import com.trainingmug.foodiecli.util.CsvReader;
 
@@ -51,6 +54,17 @@ public class Factory {
 
     public static RestaurantController getRestaurantController(){
         return new RestaurantController(getRestaurantService());
+    }
+
+    public static OrderRepository getOrderRepository(){
+        return new OrderRepository();
+    }
+    public static OrderServiceImpl getOrderService(){
+        return new OrderServiceImpl(getOrderRepository());
+    }
+
+    public static OrderController getOrderController(){
+        return new OrderController(getOrderService());
     }
 
 

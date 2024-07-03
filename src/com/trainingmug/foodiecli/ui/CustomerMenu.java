@@ -58,7 +58,7 @@ public class CustomerMenu extends Menu {
         }
     }
 
-    private void deleteCustomerForm() {
+    public void deleteCustomerForm() {
         try {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Please enter the following details to delete the Customer\n");
@@ -72,7 +72,7 @@ public class CustomerMenu extends Menu {
         }
     }
 
-    private void customerUpdateForm() {
+    public void customerUpdateForm() {
 
         try {
             Scanner scanner = new Scanner(System.in);
@@ -103,7 +103,7 @@ public class CustomerMenu extends Menu {
         }
     }
 
-    private void displayAllCustomers() {
+    public void displayAllCustomers() {
         List<Customer> customersList = this.customerController.getCustomersList();
         String dashesLine = new String(new char[150]).replace('\0', '-');
         displayMenuHeader("Customers");
@@ -114,7 +114,7 @@ public class CustomerMenu extends Menu {
         });
     }
 
-    private void customerSearchForm() {
+    public void customerSearchForm() {
         try {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Please enter the following details to search for Customer\n");
@@ -128,7 +128,7 @@ public class CustomerMenu extends Menu {
         }
     }
 
-    private void customerLoginForm() {
+    public void customerLoginForm() {
         try {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Please login entering the following details\n");
@@ -145,7 +145,7 @@ public class CustomerMenu extends Menu {
         }
     }
 
-    private void customerRegisterForm() {
+    public void customerRegisterForm() {
         try {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Please register entering the following details\n");
@@ -180,11 +180,10 @@ public class CustomerMenu extends Menu {
 
     }
 
-    private void displayCustomerDetails(Customer customer) {
-        String dashesLine = new String(new char[150]).replace('\0', '-');
+    public void displayCustomerDetails(Customer customer) {
         displayMenuHeader("Customer Details");
         System.out.printf("%-10s %-30s %-80s %-30s\n", "Id", "Name", "E-mail", "Password");
-        System.out.println(dashesLine);
+        printDashLine();
         System.out.printf("%-10s %-30s %-80s %-30s\n", customer.getId(), customer.getName(), customer.getEmail(), "*".repeat(customer.getPassword().length()));
 
     }

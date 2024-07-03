@@ -7,6 +7,7 @@ import com.trainingmug.foodiecli.exceptions.RestaurantNotFoundException;
 import com.trainingmug.foodiecli.factory.Factory;
 import com.trainingmug.foodiecli.model.Dish;
 import com.trainingmug.foodiecli.model.Restaurant;
+import com.trainingmug.foodiecli.service.RestaurantService;
 
 import java.util.Arrays;
 import java.util.List;
@@ -59,7 +60,7 @@ public class RestaurantsMenu extends Menu {
         }
     }
 
-    private void restaurantDeleteForm() {
+    public void restaurantDeleteForm() {
         try {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Please enter the following details to delete the Restaurant\n");
@@ -73,7 +74,7 @@ public class RestaurantsMenu extends Menu {
         }
     }
 
-    private void restaurantUpdateForm() {
+    public void restaurantUpdateForm() {
         try {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Please Update entering the following details\n");
@@ -102,7 +103,7 @@ public class RestaurantsMenu extends Menu {
         }
     }
 
-    private void restaurantSearchForm() {
+    public void restaurantSearchForm() {
         try {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Please enter the following details to search for Restaurant \n");
@@ -116,7 +117,7 @@ public class RestaurantsMenu extends Menu {
         }
     }
 
-    private void newRestaurantForm() {
+    public void newRestaurantForm() {
         try {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Please enter the following details\n");
@@ -144,24 +145,32 @@ public class RestaurantsMenu extends Menu {
     }
 
 
-    private void displayRestaurants() {
+    public void displayRestaurants() {
         List<Restaurant> restaurantList = this.restaurantController.getRestaurantList();
-        String dashesLine = new String(new char[150]).replace('\0', '-');
         displayMenuHeader("Restaurants");
         System.out.printf("%-10s %-30s %-80s %-30s\n", "Id", "Name", "Address", "Menu Items");
-        System.out.println(dashesLine);
+        printDashLine();
         restaurantList.forEach(restaurant -> {
             System.out.printf("%-10s %-30s %-80s %-30s\n", restaurant.getId(), restaurant.getName(), restaurant.getAddress(), String.join(":", restaurant.getMenu()));
         });
     }
 
     public void displayRestaurant(Restaurant restaurant) {
-        String dashesLine = new String(new char[150]).replace('\0', '-');
         displayMenuHeader("Restaurant Details");
         System.out.printf("%-10s %-30s %-80s %-30s\n", "Id", "Name", "Address", "Menu Items");
-        System.out.println(dashesLine);
+        printDashLine();
         System.out.printf("%-10s %-30s %-80s %-30s\n", restaurant.getId(), restaurant.getName(), restaurant.getAddress(), String.join(":", restaurant.getMenu()));
+    }
 
+    public void displayMenuItems(String restaurantId) throws RestaurantNotFoundException, DishNotFoundException {
+        displayMenuHeader("Dishes Menu Details");
+        System.out.printf("%-10s %-30s %-80s %-10s\n", "Id", "Name", "Description", "Price");
+        printDashLine();
+        RestaurantService restaurantService = Factory.getRestaurantService();
+        List<Dish> dishItems = restaurantService.getDishItems(restaurantId);
+        for(Dish dish : dishItems){
+            System.out.printf("%-10s %-30s %-80s %-10s\n", dish.getId(), dish.getName(), dish.getDescription(), String.format("$%.2f", dish.getPrice()));
+        }
     }
 
 

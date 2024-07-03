@@ -44,10 +44,14 @@ public class Menu {
         }
     }
     public void displayMenuHeader(String menuHeader) {
-        String dashesLine = new String(new char[150]).replace('\0', '-');
-        System.out.println(dashesLine);
+        printDashLine();
         String spaces = new String(new char[70]).replace('\0', ' ');
         System.out.printf("%-70s %-10s %-70s \n", spaces, menuHeader, spaces);
+        printDashLine();
+    }
+
+    public void printDashLine(){
+        String dashesLine = new String(new char[150]).replace('\0', '-');
         System.out.println(dashesLine);
     }
 }
